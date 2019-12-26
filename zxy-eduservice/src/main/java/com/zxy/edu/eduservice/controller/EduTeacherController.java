@@ -1,6 +1,7 @@
 package com.zxy.edu.eduservice.controller;
 
 
+import com.zxy.edu.common.R;
 import com.zxy.edu.eduservice.entity.EduTeacher;
 import com.zxy.edu.eduservice.service.EduTeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +30,10 @@ public class EduTeacherController {
      * @return
      */
     @GetMapping
-    public List<EduTeacher> getAllTeacherList() {
+    public R getAllTeacherList() {
         // 调用service的查询方法
         List<EduTeacher> list = eduTeacherService.list(null);
-        return list;
+        return R.ok().data("items",list);
     }
 
     /**
