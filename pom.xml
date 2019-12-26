@@ -50,14 +50,12 @@
     <dependencyManagement>
 
         <dependencies>
-
             <!--mybatis-plus 持久层-->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
-
 
             <!-- velocity 模板引擎, Mybatis Plus 代码生成器需要 -->
             <dependency>
@@ -79,11 +77,9 @@
                 <version>${swagger.version}</version>
             </dependency>
 
-
         </dependencies>
 
     </dependencyManagement>
-
 
     <build>
         <plugins>
