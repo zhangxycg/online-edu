@@ -25,4 +25,17 @@ public class GlobalExceptionHandler {
         e.printStackTrace();
         return R.error().message("出现了异常。。。");
     }
+
+    /**
+     * 对特定的异常进行处理（如果有更多的异常，继续添加需要处理的异常）
+     *
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(ArithmeticException.class)
+    @ResponseBody
+    public R error(ArithmeticException e) {
+        e.printStackTrace();
+        return R.error().message("0不能作为除数，出现了异常。。。");
+    }
 }
