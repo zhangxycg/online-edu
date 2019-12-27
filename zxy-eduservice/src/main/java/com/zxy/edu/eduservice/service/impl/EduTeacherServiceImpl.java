@@ -29,6 +29,7 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
      */
     @Override
     public void pageListCondition(Page<EduTeacher> pageTeacher, QueryTeacher queryTeacher) {
+        int i = 9/0;
         // queryTeacher 有传递过来的条件值，在此进行判断。如果有条件，则进行拼接
         if (queryTeacher == null) {
             // 直接进行查询，不需要条件操作
