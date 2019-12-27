@@ -38,4 +38,17 @@ public class GlobalExceptionHandler {
         e.printStackTrace();
         return R.error().message("0不能作为除数，出现了异常。。。");
     }
+
+    /**
+     * 自定义异常
+     *
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(EduException.class)
+    @ResponseBody
+    public R error(EduException e) {
+        e.printStackTrace();
+        return R.error().message(e.getMessage()).code(e.getCode());
+    }
 }

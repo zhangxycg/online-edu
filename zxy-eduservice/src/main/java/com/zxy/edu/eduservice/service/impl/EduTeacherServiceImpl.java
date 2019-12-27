@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zxy.edu.eduservice.entity.EduTeacher;
 import com.zxy.edu.eduservice.entity.query.QueryTeacher;
+import com.zxy.edu.eduservice.handler.EduException;
 import com.zxy.edu.eduservice.mapper.EduTeacherMapper;
 import com.zxy.edu.eduservice.service.EduTeacherService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -29,7 +30,14 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
      */
     @Override
     public void pageListCondition(Page<EduTeacher> pageTeacher, QueryTeacher queryTeacher) {
-        int i = 9/0;
+
+        try {
+            int i = 9/0;
+        } catch (Exception e) {
+            // 抛出自定义异常
+            throw new EduException(20001,"执行了自定义异常");
+        }
+
         // queryTeacher 有传递过来的条件值，在此进行判断。如果有条件，则进行拼接
         if (queryTeacher == null) {
             // 直接进行查询，不需要条件操作
