@@ -4,6 +4,7 @@ package com.zxy.edu.eduservice.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zxy.edu.common.R;
 import com.zxy.edu.eduservice.entity.EduTeacher;
+import com.zxy.edu.eduservice.entity.query.QueryTeacher;
 import com.zxy.edu.eduservice.service.EduTeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -62,16 +63,33 @@ public class EduTeacherController {
         // 创建page对象，传递参数
         Page<EduTeacher> pageTeacher = new Page<>(page, limit);
         // 调用分页查询的方法
-        eduTeacherService.page(pageTeacher,null);
+        eduTeacherService.page(pageTeacher, null);
         // 从pageTeacher对象中取出分页查询的数据
         // 总记录数
         long total = pageTeacher.getTotal();
         // 分页的数据
         List<EduTeacher> records = pageTeacher.getRecords();
         // 将数据返回到前台页面
-        return R.ok().data("total",total).data("items",records);
+        return R.ok().data("total", total).data("items", records);
+    }
 
-
+    /**
+     * 多条件组合查询带分页
+     *
+     * @param page  当前页
+     * @param limit 每页记录数
+     * @return
+     */
+    @PostMapping("moreConditonPageList/{page}/{limit}")
+    public R getMoreConditonPageList(@PathVariable Long page, @PathVariable Long limit,
+                                     @RequestBody(required = false) QueryTeacher queryTeacher) {
+        Page<EduTeacher> pageTeacher = new Page<>(page, limit);
+        // 调用service层的方法实现条件查询并分页
+        eduTeacherService.pageListCondition(pageTeacher, queryTeacher);
+        // 从pageTeacher对象里面获取分页数据
+        long total = pageTeacher.getTotal();
+        List<EduTeacher> records = pageTeacher.getRecords();
+        return R.ok().data("total", total).data("items", records);
     }
 }
 
