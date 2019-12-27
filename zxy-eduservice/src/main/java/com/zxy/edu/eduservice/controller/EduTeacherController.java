@@ -1,6 +1,7 @@
 package com.zxy.edu.eduservice.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zxy.edu.common.R;
 import com.zxy.edu.eduservice.entity.EduTeacher;
 import com.zxy.edu.eduservice.service.EduTeacherService;
@@ -25,7 +26,7 @@ public class EduTeacherController {
     private EduTeacherService eduTeacherService;
 
     /**
-     * 查询所有的讲师
+     * 1.查询所有的讲师
      *
      * @return
      */
@@ -33,11 +34,11 @@ public class EduTeacherController {
     public R getAllTeacherList() {
         // 调用service的查询方法
         List<EduTeacher> list = eduTeacherService.list(null);
-        return R.ok().data("items",list);
+        return R.ok().data("items", list);
     }
 
     /**
-     * 逻辑删除讲师
+     * 2.逻辑删除讲师
      *
      * @param id
      * @return
@@ -46,6 +47,31 @@ public class EduTeacherController {
     public boolean deleteTeacherById(@PathVariable String id) {
         boolean b = eduTeacherService.removeById(id);
         return b;
+    }
+
+    /**
+     * 3.分页查询讲师列表
+     *
+     * @param page  当前页
+     * @param limit 每页记录数
+     * @return
+     */
+    @GetMapping("pageList/{page}/{limit}")
+    public R getPageTeacherList(@PathVariable Long page,
+                                @PathVariable Long limit) {
+        // 创建page对象，传递参数
+        Page<EduTeacher> pageTeacher = new Page<>(page, limit);
+        // 调用分页查询的方法
+        eduTeacherService.page(pageTeacher,null);
+        // 从pageTeacher对象中取出分页查询的数据
+        // 总记录数
+        long total = pageTeacher.getTotal();
+        // 分页的数据
+        List<EduTeacher> records = pageTeacher.getRecords();
+        // 将数据返回到前台页面
+        return R.ok().data("total",total).data("items",records);
+
+
     }
 }
 
