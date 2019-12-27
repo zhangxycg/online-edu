@@ -74,7 +74,7 @@ public class EduTeacherController {
     }
 
     /**
-     * 多条件组合查询带分页
+     * 4.多条件组合查询带分页
      *
      * @param page  当前页
      * @param limit 每页记录数
@@ -90,6 +90,23 @@ public class EduTeacherController {
         long total = pageTeacher.getTotal();
         List<EduTeacher> records = pageTeacher.getRecords();
         return R.ok().data("total", total).data("items", records);
+    }
+
+
+    /**
+     * 5.添加讲师
+     *
+     * @param eduTeacher
+     * @return
+     */
+    @PostMapping("addTeacher")
+    public R addTeacher(@RequestBody EduTeacher eduTeacher) {
+        boolean save = eduTeacherService.save(eduTeacher);
+        if (save) {
+            return R.ok();
+        } else {
+            return R.error();
+        }
     }
 }
 
