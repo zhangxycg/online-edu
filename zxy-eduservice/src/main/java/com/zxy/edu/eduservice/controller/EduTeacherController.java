@@ -21,6 +21,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/eduservice/teacher")
+@CrossOrigin //解决跨域（协议，IP，端口号不一样）
 public class EduTeacherController {
 
     @Autowired
@@ -137,6 +138,21 @@ public class EduTeacherController {
             return R.error();
         }
 
+    }
+
+    //{"code":20000,"data":{"token":"admin"}}
+    //模拟登陆
+    @PostMapping("login")
+    public R login() {
+        return R.ok().data("token", "admin");
+    }
+
+    //{"code":20000,"data":{"roles":["admin"],"name":"admin","avatar":"https://wpimg.wallstcn
+    // .com/f778738c-e4f8-4870-b634-56703b4acafe.gif"}}
+    @GetMapping("info")
+    public R info() {
+        return R.ok().data("roles", "[admin]").data("name", "admin").data("avatar", "https://wpimg.wallstcn" +
+                ".com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
     }
 }
 

@@ -31,12 +31,12 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
     @Override
     public void pageListCondition(Page<EduTeacher> pageTeacher, QueryTeacher queryTeacher) {
 
-        try {
-            int i = 9/0;
-        } catch (Exception e) {
-            // 抛出自定义异常
-            throw new EduException(20001,"执行了自定义异常");
-        }
+//        try {
+//            int i = 9/0;
+//        } catch (Exception e) {
+//            // 抛出自定义异常
+//            throw new EduException(20001,"执行了自定义异常");
+//        }
 
         // queryTeacher 有传递过来的条件值，在此进行判断。如果有条件，则进行拼接
         if (queryTeacher == null) {
