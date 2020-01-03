@@ -4,10 +4,13 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClient;
 import com.zxy.edu.common.R;
 import com.zxy.edu.eduservice.handler.ConstantPropertiesUtil;
+import org.joda.time.DateTime;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * @Description: 上传文件到阿里云的OSS
@@ -40,6 +43,17 @@ public class FileUploadController {
 
             // 2.获取上传文件名称，获取上传文件输入流
             String fileName = file.getOriginalFilename();
+            // 在文件名称之前添加uuid值，保证文件名称不重复
+            String uuid = UUID.randomUUID().toString();
+            fileName = uuid + fileName;
+
+            // 获取当前日期 2020/01/03
+            String filePath = new DateTime().toString("yyyy/MM/dd");
+
+            // 拼接文件完整路径 2020/01/03/parker.jpg
+            fileName = filePath + "/" + fileName;
+
+            // 获取上传文件输入流
             InputStream in = file.getInputStream();
 
             // 3.把上传文件存储到阿里云oss里面
