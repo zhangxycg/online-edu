@@ -3,6 +3,7 @@ package com.zxy.edu.eduservice.controller;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClient;
 import com.zxy.edu.common.R;
+import com.zxy.edu.eduservice.handler.ConstantPropertiesUtil;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,12 +27,12 @@ public class FileUploadController {
     @PostMapping("upload")
     public R uploadTeacherImg(@RequestParam("file") MultipartFile file) {
         // 地域节点
-        String endpoint = "oss-cn-beijing.aliyuncs.com";
+        String endpoint = ConstantPropertiesUtil.ENDPOINT;
         // 云账号AccessKey有所有API访问权限，建议遵循阿里云安全最佳实践，创建并使用RAM子账号进行API访问或日常运维，请登录 https://ram.console.aliyun.com 创建。
-        String accessKeyId = "";
-        String accessKeySecret = "";
+        String accessKeyId = ConstantPropertiesUtil.KEYID;
+        String accessKeySecret = ConstantPropertiesUtil.KEYSECRET;
         // BucketName
-        String yourBucketName = "";
+        String yourBucketName = ConstantPropertiesUtil.BUCKETNAME;
 
         try {
             // 1.获取上传文件 MultipartFile file
