@@ -1,15 +1,15 @@
 package com.zxy.edu.eduservice.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zxy.edu.eduservice.entity.EduSubject;
 import com.zxy.edu.eduservice.handler.EduException;
 import com.zxy.edu.eduservice.mapper.EduSubjectMapper;
 import com.zxy.edu.eduservice.service.EduSubjectService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,9 +40,9 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
             // 1. 获取文件输入流
             InputStream in = file.getInputStream();
             // 2. 创建workbook
-            HSSFWorkbook workbook = new HSSFWorkbook(in);
+            XSSFWorkbook workbook = new XSSFWorkbook(in);
             // 3. 通过workbook获取sheet
-            HSSFSheet sheet = workbook.getSheetAt(0);
+            XSSFSheet sheet = workbook.getSheetAt(0);
 
             // 存储错误信息
             List<String> msg = new ArrayList<>();
@@ -52,7 +52,7 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
             int lastRowNum = sheet.getLastRowNum();
             for (int i = 1; i <= lastRowNum; i++) {
                 // 得到Excel中的每行数据
-                HSSFRow row = sheet.getRow(i);
+                XSSFRow row = sheet.getRow(i);
                 // 如果行为空，提示错误信息
                 if (row == null) {
                     String str = "表格数据为空，请输入数据";
@@ -61,7 +61,7 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
                 }
                 // 如果行不为空
                 // 5.1 row获取第一列
-                HSSFCell cellOne = row.getCell(0);
+                XSSFCell cellOne = row.getCell(0);
                 // 判断列是否为空
                 if (cellOne == null) {
                     String str = "第" + i + "行数据为空";
@@ -93,7 +93,7 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
                 }
 
                 // 5.2 row获取第二列
-                HSSFCell cellTwo = row.getCell(1);
+                XSSFCell cellTwo = row.getCell(1);
                 if (cellTwo == null) {
                     String str = "第" + i + "行数据为空";
                     // 跳过这一行，往下继续执行
