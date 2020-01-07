@@ -66,6 +66,8 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
                 // 因为Excel里面有很多重复的一级分类，在添加一级分类之前要进行判断。
                 // 判断要添加的一级分类在数据库表中是否存在，如果不存在则添加
                 EduSubject eduSubjectExist = this.existOneSubject(cellOneValue);
+                // 存储一级分类id
+                String id_parent = null;
 
                 if (eduSubjectExist == null) { // 如果不存在就进行添加
                     EduSubject eduSubject = new EduSubject();
@@ -73,8 +75,11 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
                     eduSubject.setParentId("0");
                     eduSubject.setSort(0);
                     baseMapper.insert(eduSubject);
+                    // 获取新添加的一级分类id并进行赋值
+                    id_parent = eduSubject.getId();
                 } else {
-
+                    // 把一级分类id赋值给id_parent
+                    id_parent = eduSubjectExist.getId();
                 }
 
                 // 5.2 row获取第二列
