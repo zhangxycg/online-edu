@@ -55,9 +55,9 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
                 XSSFRow row = sheet.getRow(i);
                 // 如果行为空，提示错误信息
                 if (row == null) {
-                    String str = "表格数据为空，请输入数据";
+                    String str = "第" + (i + 1) + "行数据为空，请输入数据";
                     msg.add(str);
-                    return msg;
+                    continue;
                 }
                 // 如果行不为空
                 // 5.1 row获取第一列
@@ -95,7 +95,7 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
                 // 5.2 row获取第二列
                 XSSFCell cellTwo = row.getCell(1);
                 if (cellTwo == null) {
-                    String str = "第" + i + "行数据为空";
+                    String str = "第" + (i + 1) + "行数据为空";
                     // 跳过这一行，往下继续执行
                     msg.add(str);
                     continue;
