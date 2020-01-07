@@ -4,6 +4,8 @@ import com.zxy.edu.eduservice.entity.EduSubject;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * <p>
  * 课程科目 服务类
@@ -18,6 +20,7 @@ public interface EduSubjectService extends IService<EduSubject> {
      * 读取Excel中的内容
      *
      * @param file
+     * @return
      */
-    void importSubject(MultipartFile file);
+    List<String> importSubject(MultipartFile file);
 }

@@ -2,6 +2,7 @@ package com.zxy.edu.eduservice.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zxy.edu.eduservice.entity.EduSubject;
+import com.zxy.edu.eduservice.handler.EduException;
 import com.zxy.edu.eduservice.mapper.EduSubjectMapper;
 import com.zxy.edu.eduservice.service.EduSubjectService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -29,9 +32,10 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
      * 读取Excel中的内容，添加到分类表里面
      *
      * @param file
+     * @return
      */
     @Override
-    public void importSubject(MultipartFile file) {
+    public List<String> importSubject(MultipartFile file) {
         try {
             // 1. 获取文件输入流
             InputStream in = file.getInputStream();
@@ -39,6 +43,10 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
             HSSFWorkbook workbook = new HSSFWorkbook(in);
             // 3. 通过workbook获取sheet
             HSSFSheet sheet = workbook.getSheetAt(0);
+
+            // 存储错误信息
+            List<String> msg = new ArrayList<>();
+
             // 4. sheet获取row（从第2行获取数据）
             // 循环遍历获取行
             int lastRowNum = sheet.getLastRowNum();
@@ -48,16 +56,18 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
                 // 如果行为空，提示错误信息
                 if (row == null) {
                     String str = "表格数据为空，请输入数据";
-                    // TODO
-                    return;
+                    msg.add(str);
+                    return msg;
                 }
                 // 如果行不为空
                 // 5.1 row获取第一列
                 HSSFCell cellOne = row.getCell(0);
                 // 判断列是否为空
                 if (cellOne == null) {
-                    String str = "列为空";
-                    // TODO
+                    String str = "第" + i + "行数据为空";
+                    // 跳过这一行，往下继续执行
+                    msg.add(str);
+                    continue;
                 }
                 // 列不为空，获取第一列里面的数据
                 // 一级分类的值
@@ -85,8 +95,10 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
                 // 5.2 row获取第二列
                 HSSFCell cellTwo = row.getCell(1);
                 if (cellTwo == null) {
-                    String str = "列为空";
-                    // TODO
+                    String str = "第" + i + "行数据为空";
+                    // 跳过这一行，往下继续执行
+                    msg.add(str);
+                    continue;
                 }
                 // 不为空，获取第二列的值
                 String cellTwoValue = cellTwo.getStringCellValue();
@@ -101,10 +113,10 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
                     baseMapper.insert(twoSubject);
                 }
             }
-
-
+            return msg;
         } catch (Exception e) {
-
+            e.printStackTrace();
+            throw new EduException(20001, "导入失败出现了异常！");
         }
     }
 
