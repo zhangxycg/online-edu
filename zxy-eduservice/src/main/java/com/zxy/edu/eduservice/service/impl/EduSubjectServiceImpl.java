@@ -91,12 +91,35 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
                 // 不为空，获取第二列的值
                 String cellTwoValue = cellTwo.getStringCellValue();
                 // 添加二级分类
+                // 判断数据库表是否存在二级分类，如果不存在则进行添加
+                EduSubject twoSubjectExist = this.existTwoSubject(cellTwoValue, id_parent);
+                if (twoSubjectExist == null) {
+                    EduSubject twoSubject = new EduSubject();
+                    twoSubject.setTitle(cellTwoValue);
+                    twoSubject.setParentId(id_parent);
+                    twoSubject.setSort(0);
+                    baseMapper.insert(twoSubject);
+                }
             }
 
 
         } catch (Exception e) {
 
         }
+    }
+
+    /**
+     * 判断数据库中是否存在二级分类
+     *
+     * @return
+     */
+    private EduSubject existTwoSubject(String name, String parentId) {
+        QueryWrapper<EduSubject> wrapper = new QueryWrapper<>();
+        // 拼接条件
+        wrapper.eq("title", name);
+        wrapper.eq("parent_id", parentId);
+        EduSubject eduSubject = baseMapper.selectOne(wrapper);
+        return eduSubject;
     }
 
     /**
