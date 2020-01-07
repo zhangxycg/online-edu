@@ -29,3 +29,5 @@ build/
 
 ### VS Code ###
 .vscode/
+/zxy-eduservice/target/
+/.idea/
