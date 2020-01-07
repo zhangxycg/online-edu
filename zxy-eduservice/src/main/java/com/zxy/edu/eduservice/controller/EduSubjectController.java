@@ -4,10 +4,7 @@ package com.zxy.edu.eduservice.controller;
 import com.zxy.edu.common.R;
 import com.zxy.edu.eduservice.service.EduSubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -22,6 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/eduservice/subject")
+@CrossOrigin
 public class EduSubjectController {
 
     @Autowired
@@ -34,9 +32,13 @@ public class EduSubjectController {
      */
     @PostMapping("import")
     public R importExcelSubject(@RequestParam("file") MultipartFile file) {
-        // 1. 获取上传的Excel文件
+        // 获取上传的Excel文件
         List<String> msg = eduSubjectService.importSubject(file);
-        return R.ok().data("msgList", msg);
+        if (msg.size() == 0) {
+            return R.ok();
+        } else {
+            return R.error().message("部分数据导入失败").data("msgList", msg);
+        }
     }
 }
 
