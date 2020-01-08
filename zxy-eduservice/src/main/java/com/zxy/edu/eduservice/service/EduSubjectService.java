@@ -2,6 +2,7 @@ package com.zxy.edu.eduservice.service;
 
 import com.zxy.edu.eduservice.entity.EduSubject;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zxy.edu.eduservice.entity.dto.OneSubjectDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -23,4 +24,19 @@ public interface EduSubjectService extends IService<EduSubject> {
      * @return
      */
     List<String> importSubject(MultipartFile file);
+
+    /**
+     * 返回所有分类
+     *
+     * @return
+     */
+    List<OneSubjectDto> getSubjectList();
+
+    /**
+     * 删除分类
+     *
+     * @param id
+     * @return
+     */
+    boolean deleteSubjectById(String id);
 }
