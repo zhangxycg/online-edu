@@ -2,6 +2,7 @@ package com.zxy.edu.eduservice.service;
 
 import com.zxy.edu.eduservice.entity.EduCourse;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zxy.edu.eduservice.entity.form.CourseInfoForm;
 
 /**
  * <p>
@@ -13,4 +14,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface EduCourseService extends IService<EduCourse> {
 
+    /**
+     * 添加课程信息
+     *
+     * @param courseInfoForm
+     * @return
+     */
+    String insertCourseInfo(CourseInfoForm courseInfoForm);
 }
